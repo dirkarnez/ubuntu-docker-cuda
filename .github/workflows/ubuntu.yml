@@ -1,0 +1,24 @@
+name: ubuntu
+on: 
+  workflow_dispatch:
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - run: |
+      sudo apt-get update \
+      && sudo apt-get install -y nvidia-container-toolkit-base
+
+    - uses: fastai/workflows/ssh@master
+      with:
+        ssh_key: ${{ secrets.SSH_KEY }}
+        key_file: id_ecdsa
+#     - uses: actions/checkout@v2
+#     - run: source script-linux.sh
+
+    - name: Setup tmate session
+      uses: mxschmitt/action-tmate@master
