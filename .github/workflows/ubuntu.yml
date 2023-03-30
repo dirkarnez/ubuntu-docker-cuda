@@ -36,6 +36,8 @@ jobs:
         sudo apt-get update && \
         sudo apt-get install nvidia-docker2 && \
         sudo systemctl stop docker.service && \
+        sudo rm -f /var/run/docker /var/run/docker.* && \
+        sudo chmod 644 /etc/docker/daemon.json && \
         sudo echo "{ \"runtimes\": { \"nvidia\": { \"path\": \"/usr/bin/nvidia-container-runtime\", \"runtimeArgs\": [] } }, \"exec-opts\": [\"native.cgroupdriver=cgroupfs\"], \"cgroup-parent\": \"/actions_job\" }" > /etc/docker/daemon.json \
         sudo systemctl start docker.service && \
         sudo docker run --rm --runtime=nvidia --gpus all nvidia/cuda:12.0.1-base-ubi8 nvidia-smi
